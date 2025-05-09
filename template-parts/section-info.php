@@ -1,33 +1,32 @@
 <?php
 /**
- * template-parts/section-grid.php
+ * template-parts/section-page.php
  * グリッドレイアウト／テキストセクション
  */
 
-$category = get_theme_mod('grid_category', '');
+
 
 $args = [
-  'post_type'      => 'page',
-  'posts_per_page' => 3,
+  'post_type'      => 'post',
+  'post_status'    => 'publish',
+  'category_name'  => 'information',
+  'posts_per_page' => -1,
   'orderby'        => 'date',
   'order'          => 'DESC',
 ];
 
-if ( ! empty( $category ) ) {
-  $args['category_name'] = $category;
-}
 
-$grid_posts = new WP_Query( $args );
-if ( $grid_posts->have_posts() ) :
+$info_posts = new WP_Query( $args );
+if ( $info_posts->have_posts() ) :
 ?>
-<section class="l-section-grid">
+<section class="l-section-grid page">
   <div class="l-section-grid__inner">
     <h2 class="c-section-title">
       <?php echo esc_html( get_theme_mod('grid_title', 'お知らせ') ); ?>
     </h2>
 
-    <div class="c-grid c-grid--2col">
-      <?php while ( $grid_posts->have_posts() ) : $grid_posts->the_post(); ?>
+    <div class="c-grid ">
+      <?php while ( $info_posts->have_posts() ) : $info_posts->the_post(); ?>
         <?php
           $permalink = get_the_permalink();
         ?>
@@ -35,12 +34,12 @@ if ( $grid_posts->have_posts() ) :
            class="c-grid__item c-grid__item--has-arrow"
            aria-label="<?php the_title_attribute(); ?>">
           <?php if ( has_post_thumbnail() ) : ?>
-            <?php the_post_thumbnail( 'medium', [
+            <?php the_post_thumbnail( 'grid-large', [
               'class' => 'c-grid__image',
               'alt'   => get_the_title(),
             ] ); ?>
           <?php else : ?>
-            <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/placeholder.jpg' ); ?>"
+            <img loading="lazy" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/placeholder.jpg' ); ?>"
                  alt="<?php the_title_attribute(); ?>"
                  class="c-grid__image">
           <?php endif; ?>

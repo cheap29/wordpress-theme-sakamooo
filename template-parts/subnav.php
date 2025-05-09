@@ -16,13 +16,8 @@
     ?>
   </nav>
 
-  <form role="search" class="l-subnav__search" action="<?php echo home_url('/'); ?>">
-    <input type="search" name="s" placeholder="Search…">
-    <button type="submit">🔍</button>
-  </form>
-
   <button class="l-subnav__toggle js-menu-toggle" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
 </div>
-<main class="l-main">
+<main class="l-main

@@ -143,6 +143,54 @@ function sakamooo_customize_register($wp_customize) {
       ]
     ) );
   }
+
+  // カスタマイザーに「背景画像」セクションを追加
+  $wp_customize->add_section('background_image_section', [
+    'title'       => __('背景画像設定', 'sakamooo'),
+    'priority'    => 40,
+  ]);
+
+  // 背景画像を保存する設定
+  $wp_customize->add_setting('background_image', [
+    'default'           => '',
+    'sanitize_callback' => 'esc_url_raw',
+  ]);
+
+  // 画像アップロード用コントロール
+  $wp_customize->add_control(new WP_Customize_Image_Control(
+    $wp_customize,
+    'background_image',
+    [
+      'label'    => __('背景に表示する画像を選択', 'sakamooo'),
+      'section'  => 'background_image_section',
+      'settings' => 'background_image',
+      'priority' => 10,
+    ]
+  ));
+
+  $wp_customize->add_section('footer_page_section', [
+    'title'    => __('Footer 固定ページ', 'sakamooo'),
+    'priority' => 40,
+  ]);
+
+  // 表示する固定ページID を保存する設定
+  $wp_customize->add_setting('footer_page_id', [
+    'default'           => 0,
+    'sanitize_callback' => 'absint',
+  ]);
+
+  // ドロップダウンでページを選択するコントロール
+  $wp_customize->add_control(new WP_Customize_Control(
+    $wp_customize,
+    'footer_page_id',
+    [
+      'label'    => __('フッターに表示する固定ページ', 'sakamooo'),
+      'section'  => 'footer_page_section',
+      'settings' => 'footer_page_id',
+      'type'     => 'dropdown-pages',
+    ]
+  ));
+
 }
 add_action('customize_register', 'sakamooo_customize_register');
 
@@ -164,6 +212,19 @@ function sakamooo_customizer_css_vars() {
 }
 add_action('wp_head', 'sakamooo_customizer_css_vars');
 
+// head 内に追加で背景画像の CSS を出力
+function sakamooo_customizer_bg_css() {
+  $bg = get_theme_mod('background_image', '');
+  if ( $bg ) {
+      echo "<style>body { 
+          background-image: url('" . esc_url( $bg ) . "');
+          background-size: cover;
+          background-position: center center;
+          background-attachment: fixed;
+      }</style>";
+  }
+}
+add_action('wp_head', 'sakamooo_customizer_bg_css');
 
 
 function sakamooo_get_categories() {

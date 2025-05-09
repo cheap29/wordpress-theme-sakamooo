@@ -3,11 +3,13 @@
  Author:    sakamooo
  Version:   1.1
 --------------------------------------------------------------*/
+@import url("https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@300;400;700&display=swap");
 
 :root {
   /* Base Colors */
   --color-primary: #6c5684;
   --color-accent: #be768b;
+  --color-accent2: #db9c58;
   --color-light: #e9ebc7;
   --color-dark: #658769;
   --color-warm: #d88a34;
@@ -21,13 +23,17 @@
   --color-border: #dedede;
 
   /* Typography & Transition */
-  --font-base: "M PLUS 1p", "Noto Sans JP", sans-serif;
+  --font-base: "M PLUS 1p", "Noto Sans JP", "Helvetica Neue",
+  Arial,
+  "Hiragino Kaku Gothic ProN",
+  "Hiragino Sans",
+  "BIZ UDPGothic",
+  Meiryo,
+  sans-serif;
   --transition: all 0.3s ease;
 
   --hero-title-top: 2rem;
   --hero-title-left: 50%;
-
-
 
   --subnav-height: 60px; /* サブナビの高さ */
   --transition: all 0.3s ease;
@@ -45,7 +51,6 @@
   margin: 0;
   padding: 0;
 }
-@import url("https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@300;400;700&display=swap");
 
 body {
   font-family: var(--font-base);
@@ -73,6 +78,14 @@ a:focus {
 
 main{max-width: 1200px;margin: 0 auto;}
 
+@media screen and (max-width: 1024px) {
+  .main-contents{padding: 0 1.25rem;}
+}
+
+@media screen and (max-width: 768px) {
+  .main-contents{padding: 0 0.5rem;}
+}
+  
 /*--------------------------------------------------------------
  Header
 --------------------------------------------------------------*/
@@ -176,7 +189,7 @@ main{max-width: 1200px;margin: 0 auto;}
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.175);
 }
 .l-hero__inner {
   position: relative;
@@ -195,7 +208,6 @@ main{max-width: 1200px;margin: 0 auto;}
   position: absolute !important;
   transform: translateX(-50%);
   color: var(--color-text-soft);
-  word-wrap: nowrap;
   z-index: 2;
   margin: 0;
 }
@@ -219,8 +231,29 @@ main{max-width: 1200px;margin: 0 auto;}
   }
 }
 
+/* Hero 内 Twitter 埋め込み */
+.l-hero__twitter {
+  width: 100%;
+  max-width: 600px;
+  margin: 2rem auto 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+@media screen and (max-width: 768px) {
+  .l-hero__twitter {
+    max-width: 100%;
+    margin: 1.5rem auto 0;
+  }
+  .c-section-title--overlay {
+    font-size: max(34px, 1.5rem) !important;
+  }
+}
+
+
 /*--------------------------------------------------------------
- Section Grid 
+ Section Grid：カードスタイル
 --------------------------------------------------------------*/
 .l-section-grid {
   padding: 3rem 1rem;
@@ -230,6 +263,8 @@ main{max-width: 1200px;margin: 0 auto;}
   max-width: 1200px;
   margin: 0 auto;
 }
+
+/* セクションタイトル */
 .c-section-title {
   font-size: 2rem;
   text-align: center;
@@ -245,72 +280,113 @@ main{max-width: 1200px;margin: 0 auto;}
   background: var(--color-accent);
   margin: 0.5rem auto 0;
 }
+
+/* グリッドレイアウト */
 .c-grid {
   display: grid;
   gap: 2rem;
 }
 .c-grid--2col {
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
+
+/* カードコンテナ */
 .c-grid__item {
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
-  background: var(--color-bg-secondary);
-  transition: background 0.2s ease;
+  display: block;                            /* aタグ全体をカード化 */
   position: relative;
+  background: var(--color-bg-primary);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-decoration: none;
+  color: inherit;
 }
 .c-grid__item:hover {
-  background: var(--color-bg-primary);
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
 }
-.c-grid__item img {
-  width: 100%;
-  height: auto;
+
+/* サムネイル画像 */
+.c-grid__item .c-grid__image {
   display: block;
-  padding: 0;
-  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: auto;   
+  max-height: 500px;      
+  object-fit: cover;
 }
 
-.c-grid__item img:hover {
-  background: rgba(0, 0, 0, 0.7);
-}
-
-/*--------------------------------------------------------------
-Grid アイテム内ラベルを縦横中央に配置（矢印なし）
---------------------------------------------------------------*/
-.c-grid__item {
-  position: relative;
-  overflow: hidden;
-}
-
+/* タイトルオーバーレイ */
 .c-grid__item .c-grid__title {
-  font-size: 1.25rem;
-  width: 100%;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   margin: 0;
-  padding: 0.5rem 1rem;
-  transition: background 0.2s ease;
-  background: rgba(0, 0, 0, 0.5);
-  color: var(--color-text-soft);
-  text-align: center;
-}
-.c-grid__item .c-grid__title span {
-  display: block;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
   font-size: 1.25rem;
+  font-weight: 600;
   text-align: center;
-  color: var(--color-text-soft);
+  line-height: 1.4;
 }
+
+/* 共通グリッド設定をセクション専用に上書き */
+.l-section-grid .c-grid {
+  display: grid;
+  gap: 2rem;
+  /* デスクトップ：3カラム固定 */
+  grid-template-columns: repeat(3, minmax(280px, 1fr));
+  justify-content: center; /* 空きセル分を中央寄せ */
+}
+
+.l-section-grid.writing .c-grid {
+  grid-template-columns: repeat(4, minmax(240px, 1fr));
+}
+
+.l-section-grid.writing .c-grid .c-grid__item{
+  max-height: 300px;
+}
+
+/* タブレット：2カラム */
+@media screen and (max-width: 1024px) {
+  .l-section-grid .c-grid {
+    grid-template-columns: repeat(2, minmax(280px, 1fr));
+    padding: 0 1rem;
+  }
+  .l-section-grid.writing .c-grid {
+    grid-template-columns: repeat(3, minmax(240px, 1fr));
+  }
+}
+
+/* スマホ：1カラム */
+@media screen and (max-width: 768px) {
+  .l-section-grid .c-grid, .l-section-grid.writing .c-grid  {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* もし .c-grid--2col に古い定義が残っている場合は念のため上書き */
+.l-section-grid .c-grid--2col {
+  grid-template-columns: repeat(3, minmax(280px, 1fr)) !important;
+}
+
 
 /* モバイル調整 */
 @media screen and (max-width: 768px) {
+  .c-grid--2col {
+    grid-template-columns: 1fr !important;
+  }
+  .c-grid__item .c-grid__image {
+    height: auto;
+  }
   .c-grid__item .c-grid__title {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.9rem;
+    font-size: 1rem;
+    padding: 0.5rem 0.75rem;
   }
 }
+
 
 
 /*--------------------------------------------------------------
@@ -367,7 +443,6 @@ Breadcrumb
 --------------------------------------------------------------*/
 
 .article {
-  max-width: 90ch;
   margin: 0 auto 4rem;
   padding: 2rem;
   background: var(--color-bg-secondary);
@@ -391,7 +466,18 @@ Breadcrumb
   justify-content: center;
   gap: 0.5rem;
 }
+
+.article__categories{
+  background-color: var(--color-accent2);
+  padding: 0 0.5rem;
+}
+.article__categories a{
+  color: var(--color-text-soft);
+}
+
 .article__content {
+  background-color: #fefefe;
+  padding: 2rem;
   line-height: 1.8;
   color: var(--color-text-primary);
 }
@@ -520,10 +606,9 @@ Sub Navigation（sticky）
   top: 0;
   left: 0;
   width: 100%;
-  background: var(--color-bg-primary);
+  background: rgba(255,255,255,0.5);
   border-bottom: 1px solid var(--color-border);
   z-index: 1000;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -541,18 +626,19 @@ Sub Navigation（sticky）
   padding: 0;
 }
 .l-subnav__nav-list li a {
+  font-weight: 700;
   color: var(--color-text-primary);
   text-decoration: none;
   transition: var(--transition);
 }
 .l-subnav__nav-list li a:hover,
 .l-subnav__nav-list li a:focus {
-  color: var(--color-primary);
+  color: var(--color-dark);
 }
 
-.current-menu-item a{
+.l-subnav__nav-list .current-menu-item a{
+  font-size: 105%;
   color: var(--color-dark);
-  font-weight: 700;
 }
 
 
@@ -624,4 +710,235 @@ Sub Navigation（sticky）
   .l-subnav__toggle {
     display: flex;
   }
+}
+
+
+/*--------------------------------------------------------------
+年月トグルボタン
+--------------------------------------------------------------*/
+.archive-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 2rem 0;
+  justify-content: center;
+}
+.toggle-btn {
+  padding: 0.5rem 1rem;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.toggle-btn:hover {
+  background: var(--color-accent);
+  color: var(--color-bg-primary);
+}
+.toggle-btn.is-active {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+
+/*--------------------------------------------------------------
+投稿サマリー
+--------------------------------------------------------------*/
+.archive-list {
+  margin: 4rem auto;
+}
+.post-summary {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 1rem;
+}
+.post-summary h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.post-summary time {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.post-summary__content {
+  margin-top: 1rem;
+  line-height: 1.6;
+  color: var(--color-text-primary);
+}
+.post-summary__content p {
+  margin-bottom: 1rem;
+}
+
+/*--------------------------------------------------------------
+セグメンテッドトグルボタン
+--------------------------------------------------------------*/
+/* コンテナ */
+.archive-toggle {
+  display: inline-flex;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* 各トグル */
+.toggle-btn {
+  position: relative;
+  flex: 1;
+  border: none;
+  color: var(--color-dark);          
+  font-size: 14px;
+  padding: 8px 16px;
+  min-width: 80px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.2s, box-shadow 0.2s;
+  user-select: none;
+}
+
+/* Ripple 擬似要素 */
+.toggle-btn::after {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 0; height: 0;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: width 0.4s ease-out, height 0.4s ease-out, opacity 0.4s ease-out;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ホバー時の背景 */
+.toggle-btn:not(.is-active):hover {
+  background-color: var(--color-accent); 
+  color: var(--color-text-soft);
+}
+
+/* クリック時に Ripple を拡大 */
+.toggle-btn:active::after {
+  width: 200%;
+  height: 200%;
+  opacity: 1;
+  transition: width 0s, height 0s, opacity 0.4s ease-out;
+}
+
+/* アクティブ状態 */
+.toggle-btn.is-active {
+  background-color: var(--color-accent); 
+  color: var(--color-text-soft);
+  font-weight: 700;
+  box-shadow: 0 2px 4px rgba(255, 255, 255, 0.2);
+}
+
+
+/*--------------------------------------------------------------
+Archive Grid／Card Style
+--------------------------------------------------------------*/
+.archive-list {
+  padding: 2rem 1rem;
+}
+.archive-grid {
+  display: grid;
+  gap: 2rem;
+  /* デスクトップ以上は3カラム固定 */
+  grid-template-columns: repeat(3, minmax(280px, 1fr));
+  justify-content: center;
+}
+.archive-card {
+  background: var(--color-bg-primary);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+.archive-card:hover {
+  transform: translateY(-4px);
+}
+.archive-card__thumbnail img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.archive-card__body {
+  padding: 1rem;
+}
+.archive-card__title {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+.archive-card__title a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+.archive-card__title a:hover {
+  color: var(--color-accent);
+}
+.archive-card__time {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.75rem;
+}
+.archive-card__excerpt {
+  line-height: 1.6;
+  color: var(--color-text-primary);
+}
+/* タブレット */
+@media screen and (max-width: 1024px) {
+  .archive-grid {
+    grid-template-columns: repeat(2, minmax(280px, 1fr));
+  }
+}
+
+/* スマホ */
+@media screen and (max-width: 768px) {
+  .archive-grid {
+    grid-template-columns: 1fr; 
+  }
+}
+
+
+/*--------------------------------------------------------------
+Archive Card Tags
+--------------------------------------------------------------*/
+.archive-card__tags {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.archive-card__tag {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.875rem;
+  background: var(--color-dark);
+  color: var(--color-text-soft);
+  border-radius: 12px;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.archive-card__tag:hover,
+.archive-card__tag:focus {
+  background: var(--color-primary);
+  color: var(--color-bg-primary);
+  outline: none;
+}
+
+
+
+/*--------------------------------------------------------------
+フッター固定ページ
+--------------------------------------------------------------*/
+.footer-page-block{
+  padding: 2rem;
+  background-color: var(--color-dark);
+  color: var(--color-text-soft);
+}
+.footer-page-block a{
+  color: var(--color-text-soft);
 }

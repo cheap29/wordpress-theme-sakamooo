@@ -1,34 +1,32 @@
 <?php
 /**
- * template-parts/section-post.php
+ * template-parts/section-writer.php
  * グリッドレイアウト／テキストセクション
  */
 
-$category = get_theme_mod('grid_category', '');
+
 
 $args = [
   'post_type'      => 'post',
   'post_status'    => 'publish',
-  'posts_per_page' => 3,
+  'category_name'  => 'writing',
+  'posts_per_page' => -1,
   'orderby'        => 'date',
   'order'          => 'DESC',
 ];
 
-if ( ! empty( $category ) ) {
-  $args['category_name'] = $category;
-}
 
-$grid_posts = new WP_Query( $args );
-if ( $grid_posts->have_posts() ) :
+$writer_posts = new WP_Query( $args );
+if ( $writer_posts->have_posts() ) :
 ?>
-<section class="l-section-grid post">
+<section class="l-section-grid writing">
   <div class="l-section-grid__inner">
     <h2 class="c-section-title">
-      <?php echo esc_html( get_theme_mod('grid_title', '最新記事') ); ?>
+      <?php echo esc_html( get_theme_mod('grid_title', '取材やコラム') ); ?>
     </h2>
 
     <div class="c-grid ">
-      <?php while ( $grid_posts->have_posts() ) : $grid_posts->the_post(); ?>
+      <?php while ( $writer_posts->have_posts() ) : $writer_posts->the_post(); ?>
         <?php
           $permalink = get_the_permalink();
         ?>

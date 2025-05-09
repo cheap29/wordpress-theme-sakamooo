@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 
-<main class="l-main">
+<main class="l-main main-contents">
   <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 
     <!-- パンくず -->
@@ -17,7 +17,7 @@
           <?php 
             $thumb_url = get_the_post_thumbnail_url( get_the_ID(), 'full' );
           ?>
-          <img 
+          <img loading="lazy"
             src="<?php echo esc_url($thumb_url); ?>" 
             alt="<?php the_title_attribute(); ?>" 
             class="article__thumbnail-img">
@@ -28,7 +28,7 @@
       <header class="article__header">
         <h1 class="article__title"><?php the_title(); ?></h1>
         <div class="article__meta">
-          <span class="article__date"><?php echo get_the_date( 'Y/m/d' ); ?></span>
+          <!-- <span class="article__date"><?php echo get_the_date( 'Y/m/d' ); ?></span> -->
           <span class="article__categories">
             <?php the_category( ', ' ); ?>
           </span>
@@ -42,6 +42,7 @@
     </article>
 
   <?php endwhile; endif; ?>
+  <a href="<?php echo home_url(); ?>" class="article__back">← 戻る</a>
 </main>
 
 <?php get_footer(); ?>
