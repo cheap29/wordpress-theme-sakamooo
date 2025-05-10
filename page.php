@@ -42,7 +42,6 @@
     </article>
 
   <?php endwhile; endif; ?>
-  <a href="<?php echo home_url(); ?>" class="article__back">← 戻る</a>
 </main>
 
 <?php get_footer(); ?>

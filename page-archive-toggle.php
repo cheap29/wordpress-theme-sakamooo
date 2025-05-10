@@ -11,12 +11,27 @@ $current_year = isset( $_GET['year'] ) ? intval( $_GET['year'] ) : 0;
 $current_m    = isset( $_GET['m'] )    ? intval( $_GET['m'] )    : 0;
 
 // ① 年リストを取得（公開済みのみ）
+// カテゴリースラッグを指定
+$category_slug = 'scheduleList';
+
+// カテゴリーIDを取得
+$category_id = get_category_by_slug($category_slug)->term_id;
+
 $years = $wpdb->get_results(
-  "SELECT DISTINCT YEAR(post_date) AS y
-     FROM {$wpdb->posts}
-    WHERE post_type = 'post'
-      AND post_status = 'publish'
-    ORDER BY y DESC"
+  $wpdb->prepare(
+    "
+    SELECT DISTINCT YEAR(p.post_date) AS y
+    FROM {$wpdb->posts} p
+    INNER JOIN {$wpdb->term_relationships} tr ON p.ID = tr.object_id
+    INNER JOIN {$wpdb->term_taxonomy} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+    WHERE p.post_type = 'post'
+      AND p.post_status = 'publish'
+      AND tt.taxonomy = 'category'
+      AND tt.term_id = %d
+    ORDER BY y DESC
+    ",
+    $category_id
+  )
 );
 ?>
 
@@ -41,14 +56,27 @@ $years = $wpdb->get_results(
 
     <!-- ② 選択年の月リストを取得 -->
     <?php
+      // カテゴリースラッグを指定
+      $category_slug = 'scheduleList';
+
+      // カテゴリーIDを取得
+      $category_id = get_category_by_slug($category_slug)->term_id;
+
       $months = $wpdb->get_results(
         $wpdb->prepare(
-          "SELECT DISTINCT MONTH(post_date) AS m
-             FROM {$wpdb->posts}
-            WHERE post_type = 'post'
-              AND post_status = 'publish'
-              AND YEAR(post_date) = %d
-            ORDER BY m DESC",
+          "
+          SELECT DISTINCT MONTH(p.post_date) AS m
+          FROM {$wpdb->posts} p
+          INNER JOIN {$wpdb->term_relationships} tr ON p.ID = tr.object_id
+          INNER JOIN {$wpdb->term_taxonomy} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+          WHERE p.post_type = 'post'
+            AND p.post_status = 'publish'
+            AND tt.taxonomy = 'category'
+            AND tt.term_id = %d
+            AND YEAR(p.post_date) = %d
+          ORDER BY m DESC
+          ",
+          $category_id,
           $current_year
         )
       );

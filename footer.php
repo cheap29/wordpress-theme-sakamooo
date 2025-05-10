@@ -34,7 +34,7 @@ if ( $footer_page_id ) {
 
 <footer class="l-footer">
   <div class="l-footer__inner">
-    <p>&copy; <?php echo date('Y'); ?> <?php bloginfo('name'); ?> create by <a href="https://sakamooo.com/">sakamooo</a> All rights reserved.</p>
+    <p>&copy; <?php echo date('Y'); ?> this site create by <a href="https://sakamooo.com/">sakamoto企画</a> All rights reserved.</p>
   </div>
 </footer>
 <?php wp_footer(); ?>

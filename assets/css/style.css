@@ -32,9 +32,6 @@
   sans-serif;
   --transition: all 0.3s ease;
 
-  --hero-title-top: 2rem;
-  --hero-title-left: 50%;
-
   --subnav-height: 60px; /* サブナビの高さ */
   --transition: all 0.3s ease;
 
@@ -86,9 +83,71 @@ main{max-width: 1200px;margin: 0 auto;}
   .main-contents{padding: 0 0.5rem;}
 }
   
+
+/*--------------------------------------------------------------
+ common
+--------------------------------------------------------------*/
+
+
+.wp-block-group__inner-container {
+  display: grid;
+  padding: 1rem;
+}
+
+
+/* 見出し */
+.wp-block-group__inner-container strong {
+  display: block;
+  font-size: 1.5rem;
+  margin-bottom: .75rem;
+  color: #333;
+}
+
+/* リスト */
+.wp-block-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.wp-block-list li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: .5rem;
+  line-height: 1.4;
+}
+.wp-block-list li::before {
+  content: "▶";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #f08a5d;
+  font-size: .9rem;
+}
+
+/* リンクボタン風 */
+.to-detail-page a {
+  display: inline-block;
+  cursor: pointer;
+  margin-top: 1rem;
+  padding: .5rem 1rem;
+  background: #f08a5d;
+  color: #fff;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background .3s;
+}
+.to-detail-page a:hover {
+  background: #ee6243;
+}
+
+
+
+
 /*--------------------------------------------------------------
  Header
 --------------------------------------------------------------*/
+
 .l-header {
   display: var(--h1-title-display);
   background: var(--color-bg-primary);
@@ -189,7 +248,6 @@ main{max-width: 1200px;margin: 0 auto;}
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.175);
 }
 .l-hero__inner {
   position: relative;
@@ -197,30 +255,51 @@ main{max-width: 1200px;margin: 0 auto;}
   max-width: 1200px;
   margin: 0 auto;
 }
-.l-hero__scroll {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-}
+
 .c-section-title--overlay {
   position: absolute !important;
-  transform: translateX(-50%);
+	top:10%;
+	left:20px;
+  transform: unset;
+	font-size:3rem;
   color: var(--color-text-soft);
   z-index: 2;
   margin: 0;
+  font-size: 3rem;
+  font-family: 'Playfair Display', serif;
+  text-shadow:
+    1px 1px 0 #b1aeae,
+    2px 2px 0 #443f3f;
+}
+.c-section-title--overlay span{
+	margin-left:0.15rem;
+	font-size:0.48em !important;
 }
 
-.l-hero__scroll-text {
-  font-size: 0.9rem;
-  color: var(--color-text-soft);
+c-section-title--overlay::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: -0.2px;
+  width: 100%; height: 3px;
+  background: linear-gradient(90deg, #ff7e5f, #feb47b);
+  border-radius: 2px;
 }
-.l-hero__scroll-arrow {
-  font-size: 1.5rem;
-  color: var(--color-text-soft);
-  animation: down-and-up 1.5s ease-in-out infinite;
+
+
+@media screen and (max-width: 768px) {
+  .c-section-title--overlay {
+    font-size: 3rem !important;
+		top:70%;
+		left:50%;
+  	transform: translateX(-50%);
+		width:100%;
+		text-align:center;
+  }
+	.c-section-title--overlay span{
+		display:none !important;
+	}
 }
+
 @keyframes down-and-up {
   0%,
   100% {
@@ -228,26 +307,6 @@ main{max-width: 1200px;margin: 0 auto;}
   }
   50% {
     transform: translateY(8px);
-  }
-}
-
-/* Hero 内 Twitter 埋め込み */
-.l-hero__twitter {
-  width: 100%;
-  max-width: 600px;
-  margin: 2rem auto 0;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-}
-
-@media screen and (max-width: 768px) {
-  .l-hero__twitter {
-    max-width: 100%;
-    margin: 1.5rem auto 0;
-  }
-  .c-section-title--overlay {
-    font-size: max(34px, 1.5rem) !important;
   }
 }
 
@@ -390,52 +449,55 @@ main{max-width: 1200px;margin: 0 auto;}
 
 
 /*--------------------------------------------------------------
-Breadcrumb
+  Breadcrumb
 --------------------------------------------------------------*/
 .breadcrumb {
-  display: inline-flex;
-  flex-wrap: wrap;
-  align-items: center;
-  font-size: 0.875rem;
-  margin: 1.5rem 0;
-  color: var(--color-text-secondary);
-  list-style: none;
-  padding: 0;
+  display:      inline-flex;
+  flex-wrap:    wrap;
+  align-items:  center;
+  padding:      0.5rem 1rem;
+  gap:          0.5rem;
+  font-size:    0.875rem;
+  color:        var(--color-text-secondary);
 }
 
-/* リンク部 */
 .breadcrumb a {
-  color: var(--color-dark);
+  color:           var(--color-primary);
   text-decoration: none;
-  transition: color var(--transition);
-  position: relative;
-  padding: 0.125rem 0.25rem;
+  transition:      var(--transition);
 }
 
-/* リンク間に「›」を自動挿入 */
-.breadcrumb a:not(:last-child)::after {
-  content: "› ";
-  display: inline-block;
-  margin: 0 0.5rem;
-  color: var(--color-border);
-  font-size: 0.75rem;
-  vertical-align: middle;
+.breadcrumb a:hover {
+  text-decoration: underline;
 }
 
-/* ホバー・フォーカス時 */
-.breadcrumb a:hover,
-.breadcrumb a:focus {
-  color: var(--color-primary);
-  outline: none;
-}
-
-/* 現在ページはリンクではなくテキストで強調 */
-.breadcrumb .current {
+.breadcrumb span {
+  color: var(--color-accent);
   font-weight: 700;
-  color: var(--color-text-primary);
-  padding: 0.125rem 0.25rem;
 }
 
+/*--------------------------------------------------------------
+  Breadcrumb Home に家アイコンを追加
+--------------------------------------------------------------*/
+
+/* Home リンク全体に左パディングを確保 */
+.breadcrumb a:first-child {
+  position: relative;
+  padding-left: 1.4em;
+}
+
+/* 疑似要素で家アイコンを挿入 */
+.breadcrumb a:first-child::before {
+  content: "\1F3E0";          /* 🏠 の Unicode */
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1em;
+  line-height: 1;
+  margin-right: 0.4rem;
+  color: var(--color-primary);
+}
 
 
 /*--------------------------------------------------------------
@@ -443,29 +505,48 @@ Breadcrumb
 --------------------------------------------------------------*/
 
 .article {
-  margin: 0 auto 4rem;
+  margin: 2rem auto 4rem;
   padding: 2rem;
   background: var(--color-bg-secondary);
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
 }
 .article__header {
-  text-align: center;
-  margin-bottom: 2.5rem;
+  text-align: cnter;
+  margin: 0;
+  padding-bottom: 0;
+  border-bottom: 1px solid #e0e0e0;
 }
 .article__title {
-  font-size: clamp(2rem, 5vw, 3rem);
-  color: var(--color-primary);
-  margin-bottom: 0.5rem;
+  font-size: clamp(1.75rem, 5vw, 2rem);
+  font-weight: 400;                   
+  color: var(--color-dark);           
+  margin: 0;
 }
 .article__meta {
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  align-items: center;
   gap: 0.5rem;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary); 
 }
+/* メタ項目の間にドットを挿入 */
+.article__meta span + span::before {
+  content: "•";
+  color: var(--color-border);
+  margin: 0 0.5rem;
+}
+
+/* カテゴリラベルをソフトに */
+.article__categories {
+  background: var(--color-bg-secondary);
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  color: var(--color-dark);
+  font-weight: 500;
+}
+
 
 .article__categories{
   background-color: var(--color-accent2);
@@ -554,6 +635,13 @@ Pinned Thumbnail (ピンで貼り風)
   border-radius: 4px;
 }
 
+@media (max-width: 768px) {
+  .article__thumbnail {
+    width: 320px;
+  }
+}
+
+
 /*--------------------------------------------------------------
 Fixed Page Block Styles
 --------------------------------------------------------------*/
@@ -606,7 +694,7 @@ Sub Navigation（sticky）
   top: 0;
   left: 0;
   width: 100%;
-  background: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.7);
   border-bottom: 1px solid var(--color-border);
   z-index: 1000;
   display: flex;
@@ -614,7 +702,7 @@ Sub Navigation（sticky）
   justify-content: space-between;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0.75rem 1rem; /* ← 高さの代わりに上下パディング */
+  height: 60px;
 }
 
 /* メニューリスト */
@@ -688,27 +776,37 @@ Sub Navigation（sticky）
 @media (max-width: 768px) {
   .l-subnav__nav {
     display: none;
-    position: absolute;
-    top: var(--subnav-height);
-    right: 0;
-    background: var(--color-bg-primary);
+    position: fixed; /* fixedに変更 */
+    top: 60px;
+    left: -100%; /* 初期位置を画面外に設定 */
     width: 80vw;
     max-width: 300px;
-    box-shadow: -2px 0 8px rgba(0,0,0,0.1);
-    padding: 1rem;
+    height: 100vh; /* 全画面高さ */
+    background: var(--color-bg-primary);
+    box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+    padding: 2rem 1rem;
+    transition: left 0.3s ease;
+    z-index: 1000;
   }
+
   .l-subnav__nav.open {
-    display: block;
+    left: 0; /* 表示時の位置 */
   }
+
   .l-subnav__nav-list {
     flex-direction: column;
     gap: 1rem;
   }
+
   .l-subnav__search {
     display: none;
   }
+
   .l-subnav__toggle {
     display: flex;
+    position: absolute;
+    top: 1.5rem;
+    left: 1rem;
   }
 }
 
@@ -724,6 +822,7 @@ Sub Navigation（sticky）
   justify-content: center;
 }
 .toggle-btn {
+  font-weight: 700;
   padding: 0.5rem 1rem;
   background: var(--color-bg-secondary);
   border: 1px solid var(--color-border);
@@ -745,7 +844,7 @@ Sub Navigation（sticky）
 投稿サマリー
 --------------------------------------------------------------*/
 .archive-list {
-  margin: 4rem auto;
+  margin: 2rem auto;
 }
 .post-summary {
   margin-bottom: 2rem;
@@ -941,4 +1040,378 @@ Archive Card Tags
 }
 .footer-page-block a{
   color: var(--color-text-soft);
+}
+
+
+
+/*--------------------------------------------------------------
+お仕事依頼ページ
+--------------------------------------------------------------*/
+
+/* ベース */
+.content-subpage {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #fff;
+  color: #333;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* 1. メインタイトル */
+.subpage-title {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 1rem 0;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+/* 2. サービスグリッド */
+.service-grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  margin-bottom: 3rem;
+}
+.service-item {
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  transition: transform .3s, box-shadow .3s;
+}
+.service-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+.service-item .icon {
+  font-size: 2rem;
+  margin-bottom: .5rem;
+}
+.service-item h3 {
+  font-size: 1.2rem;
+  margin-bottom: .75rem;
+  color: #222;
+}
+.service-item p {
+  margin-bottom: 1rem;
+  color: #555;
+}
+
+/* 3. CTAボタン */
+.btn-otayori {
+  display: inline-block;
+  padding: .6rem 1.2rem;
+  background: #feb47b;
+  color: #fff;
+  border-radius: 4px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity .3s;
+}
+.btn-otayori:hover {
+  opacity: .8;
+}
+
+/* 4. アイコン中央配置 */
+.icon-center {
+  text-align: center;
+  margin: 2rem 0;
+}
+.icon-center img {
+  width: 54px;
+  height: auto;
+}
+
+/* 5. タイムライン */
+.timeline-title {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+.timeline-title::after {
+  content: "";
+  display: block;
+  width: 60px; height: 3px;
+  background: linear-gradient(90deg, #ff7e5f, #feb47b);
+  margin: 8px auto 0;
+  border-radius: 2px;
+}
+.timeline {
+  border-left: 3px solid #feb47b;
+  padding-left: 1.5rem;
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 2rem;
+	padding-left:1rem;
+}
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -9px; top: 5px;
+  width: 14px; height: 14px;
+  background: #fff;
+  border: 3px solid #ff7e5f;
+  border-radius: 50%;
+}
+.timeline-date {
+  font-size: .95rem;
+  font-weight: 600;
+  color: #ff7e5f;
+  margin-bottom: .25rem;
+}
+.timeline-content {
+  color: #555;
+}
+.timeline-content a {
+  color: #ff7e5f;
+  text-decoration: none;
+}
+.timeline-content a:hover {
+  text-decoration: underline;
+}
+
+/* レスポンシブ */
+@media (max-width: 600px) {
+  .subpage-title { font-size: 1.6rem; }
+  .service-grid { grid-template-columns: 1fr; }
+}
+
+
+/*--------------------------------------------------------------
+ プロフィールページ
+--------------------------------------------------------------*/
+
+/* プロフィールページ全体 */
+.profile-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  color: var(--color-text-primary);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* セクション共通 */
+.profile-page section {
+  margin-bottom: 3rem;
+}
+.profile-page h2 {
+  font-size: 1.8rem;
+  color: var(--color-primary);
+  border-bottom: 2px solid var(--color-accent2);
+  padding-bottom: .5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* 1. 基本情報 */
+.profile-basic p {
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+}
+
+/* 2. タイムライン */
+.timeline-list {
+  list-style: none;
+  position: relative;
+  padding-left: 2rem;
+}
+.timeline-list::before {
+  content: "";
+  position: absolute;
+  left: 1rem;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--color-accent2);
+}
+.timeline-list li {
+  position: relative;
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+.timeline-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.3rem;
+  width: 10px;
+  height: 10px;
+  background: var(--color-primary);
+  border-radius: 50%;
+}
+.timeline-list time {
+  font-weight: 600;
+  color: var(--color-accent);
+  display: block;
+  margin-bottom: .3rem;
+}
+
+/* 3. 詳細情報（DLグリッド） */
+.profile-details dl {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+.profile-details dt {
+  font-weight: 600;
+  color: var(--color-dark);
+}
+.profile-details dd {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+/* 4. お仕事グリッド */
+.profile-work .work-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+  gap: 1.5rem;
+}
+.profile-work .work-grid h3 {
+  font-size: 1.1rem;
+  color: var(--color-primary);
+  margin-bottom: .5rem;
+}
+.profile-work .work-grid p {
+  color: var(--color-text-secondary);
+}
+
+.profile-page section h2 {
+  display: block;
+  font-size: 1.6rem;
+  color: var(--color-dark);
+  background: rgba(236, 225, 216, 0.2); 
+  padding: .25em .5em;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+
+.profile-details dl div,
+.profile-work .work-grid div{
+	background:rgba(240,240,240,0.3);
+	padding:1rem;
+	border-radius:8px;	
+}
+
+
+/*--------------------------------------------------------------
+  友の会ページ
+--------------------------------------------------------------*/
+.membership-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  font-size: 16px;
+  color: var(--color-text-primary);
+  line-height: 1.6;
+}
+
+/* セクション見出し（左アクセントバー） */
+.membership-page section h2 {
+  position: relative;
+  font-size: 1.75rem;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+  padding-left: 1.25rem;
+}
+.membership-page section h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 4px;
+  height: 1.2em;
+  background: var(--color-accent);
+  transform: translateY(-50%);
+  border-radius: 2px;
+}
+
+/* 会員特典リスト */
+.membership-benefits ul {
+  list-style: none;
+  padding-left: 0;
+}
+.membership-benefits li {
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+.membership-benefits li::before {
+  content: "☆";
+  position: absolute;
+  left: 0;
+  color: var(--color-accent2);
+}
+
+/* 年会費ボックス */
+.fee-box {
+  background: rgba(240,240,240,0.2);
+  border-left: 4px solid var(--color-accent2);
+  padding: 1rem 1.25rem;
+  border-radius: 4px;
+}
+.fee-box p {
+  margin-bottom: 0.75rem;
+}
+.fee-box .note {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+/* 入会申込手順 */
+.steps {
+  counter-reset: step;
+  list-style: none;
+  padding-left: 0;
+}
+.steps li {
+  counter-increment: step;
+  margin-bottom: 1rem;
+  padding-left: 2rem;
+  position: relative;
+}
+.steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  line-height: 1.5rem;
+  text-align: center;
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: 50%;
+  font-weight: bold;
+}
+.contact-mail a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+/* お問い合わせ */
+.membership-contact p {
+  margin-bottom: 0.75rem;
+}
+.membership-contact a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+/* レスポンシブ */
+@media (max-width: 600px) {
+  .membership-page {
+    padding: 1rem 0.5rem;
+  }
+  .membership-page section h2 {
+    font-size: 1.5rem;
+  }
 }

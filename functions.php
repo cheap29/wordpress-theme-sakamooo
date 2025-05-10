@@ -69,7 +69,7 @@ function sakamooo_customize_register($wp_customize) {
   $wp_customize->add_control('show_h1_title', [
       'settings' => 'show_h1_title',
       'section'  => 'hero_title',
-      'label'    => 'h1見出しを表示する',
+      'label'    => 'ナビバー見出しを表示する',
       'type'     => 'checkbox',
   ]);
 
@@ -82,43 +82,6 @@ function sakamooo_customize_register($wp_customize) {
       'settings' => 'hero-title-text',
       'section'  => 'hero_title',
       'label'    => 'ヒーローh1テキスト',
-      'type'     => 'text',
-  ]);
-
-
-  // 縦位置
-  $wp_customize->add_setting('hero_title_top', [
-      'default'           => '2rem',
-      'sanitize_callback' => 'sanitize_text_field',
-  ]);
-  $wp_customize->add_control('hero_title_top', [
-      'settings' => 'hero_title_top',
-      'section'  => 'hero_title',
-      'label'    => '見出しの縦位置 (例: 2rem, 50px)',
-      'type'     => 'text',
-  ]);
-
-  // 横位置
-  $wp_customize->add_setting('hero_title_left', [
-      'default'           => '50%',
-      'sanitize_callback' => 'sanitize_text_field',
-  ]);
-  $wp_customize->add_control('hero_title_left', [
-      'settings' => 'hero_title_left',
-      'section'  => 'hero_title',
-      'label'    => '見出しの横位置 (例: 50%, 200px)',
-      'type'     => 'text',
-  ]);
-
-  // フォントサイズ
-  $wp_customize->add_setting('hero_title_size', [
-      'default'           => 'clamp(1.5rem, 5vw, 2.5rem)',
-      'sanitize_callback' => 'sanitize_text_field',
-  ]);
-  $wp_customize->add_control('hero_title_size', [
-      'settings' => 'hero_title_size',
-      'section'  => 'hero_title',
-      'label'    => '見出しのフォントサイズ (CSS clamp など可)',
       'type'     => 'text',
   ]);
 
@@ -197,17 +160,11 @@ add_action('customize_register', 'sakamooo_customize_register');
 // head 内に CSS 変数として出力
 function sakamooo_customizer_css_vars() {
     $show  = get_theme_mod('show_h1_title', true ) ? 'block' : 'none';
-    $top   = esc_attr( get_theme_mod('hero_title_top', '2rem') );
-    $left  = esc_attr( get_theme_mod('hero_title_left', '50%') );
-    $size  = esc_attr( get_theme_mod('hero_title_size', 'clamp(1.5rem, 5vw, 2.5rem)') );
     $text  = esc_attr( get_theme_mod('hero-title-text', '') );
 
     echo "<style>:root {
       --h1-title-display: {$show};
       --hero-title-text: {$text};
-      --hero-title-top: {$top};
-      --hero-title-left: {$left};
-      --hero-title-size: {$size};
     }</style>";
 }
 add_action('wp_head', 'sakamooo_customizer_css_vars');
